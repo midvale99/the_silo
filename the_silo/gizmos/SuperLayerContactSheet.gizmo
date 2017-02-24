@@ -1,0 +1,286 @@
+#! //sbpstor/deploy/packages/nuke/9.0.8/platform-windows/nuke-9.0.8.dll -nx
+version 9.0 v8
+Gizmo {
+ tile_color 0xdb00ffff
+ postage_stamp true
+ addUserKnob {20 Contact_Sheet l "Contact Sheet"}
+ addUserKnob {41 in l "Background layer" t "Pick a layer that you want to view beneath your mattes to help see where they are in your scene." T Shuffle7.in}
+ addUserKnob {41 mix l "Background visibility" t "Adjust the visibility of your background layer" T Merge17.mix}
+ addUserKnob {41 saturation l "Background Saturation" T ColorCorrect1.saturation}
+ addUserKnob {41 width l Resolution t "Contact sheet width" T ContactSheet.width}
+ addUserKnob {41 height l "" t "Contact sheet height" -STARTLINE T ContactSheet.height}
+ addUserKnob {41 rows l rows/columns t "Manually enter the number of rows for the contact sheet" T ContactSheet.rows}
+ addUserKnob {41 columns l "" t "Manually enter the number of columns for the contact sheet" -STARTLINE T ContactSheet.columns}
+ addUserKnob {22 AutoGrid l "Auto Calculate " t "Auto calculates and sets the optimum number of rows and columns for the contact sheet" -STARTLINE T "import math\n\nnode = nuke.thisNode().input(0)\nchannels = node.channels()\nlayers = list( set(\[channel.split('.')\[0] for channel in channels]) )\nnumber = int(len(layers))\nprint number\ncolumns = int(math.sqrt(number))\nprint columns\nlines = int(math.ceil(number/float(columns)))\nprint lines\nnuke.thisNode()\['rows'].setValue(lines)\nnuke.thisNode()\['columns'].setValue(columns)"}
+ addUserKnob {26 ""}
+ addUserKnob {1 MultimatteString l "Multimatte Prefix String"}
+ MultimatteString mm
+ addUserKnob {22 CheckMattes l "Check All Multimattes" t "   expressionNode\['expr3'].setValue('+'.join(mattechannels))\n\nstr1 = ''.join(list1)" -STARTLINE T "def AddChannels( node ):\n   node=nuke.thisNode()\n   channels = node.channels()\n   channels.sort()  \n   prefix=node\['MultimatteString'].value()\n   mattechannels= \[s for s in channels if s.startswith(str(prefix))]\n   mattechannelString=(' + '.join(mattechannels))\n   expressionNode=nuke.toNode('Expression_MM')\n   expressionNode\['expr3'].setValue(mattechannelString)\n   expressionNode\['channel3'].setValue('rgba')\n   nuke.toNode('Switch1')\['which'].setValue(1)\n\nNode=nuke.thisNode().input(0)\nAddChannels(Node)\n\n"}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {22 MultimatteView l "View All Multimattes" T "nuke.toNode('Switch1')\['which'].setValue(1)" +STARTLINE}
+ addUserKnob {22 ViewContactSheet l "View Contact Sheet" -STARTLINE T "nuke.toNode('Switch1')\['which'].setValue(0)"}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -134
+  ypos -610
+ }
+set Na12bd400 [stack 0]
+ Dot {
+  name Dot2
+  xpos 29
+  ypos -606
+ }
+set Nf4f0d000 [stack 0]
+ Expression {
+  channel3 rgba
+  expr3 "mm_id_000.blue + mm_id_000.green + mm_id_000.red + mm_id_001.blue + mm_id_001.green + mm_id_001.red + mm_id_002.blue + mm_id_002.green + mm_id_002.red + mm_id_003.blue + mm_id_003.green + mm_id_003.red + mm_id_004.blue + mm_id_004.green + mm_id_004.red + mm_id_005.blue + mm_id_005.green + mm_id_005.red + mm_id_006.blue + mm_id_006.green + mm_id_006.red + mm_id_007.blue + mm_id_007.green + mm_id_007.red + mm_id_008.blue + mm_id_008.green + mm_id_008.red + mm_id_009.blue + mm_id_009.green + mm_id_009.red + mm_id_010.blue + mm_id_010.green + mm_id_010.red + mm_id_011.blue + mm_id_011.green + mm_id_011.red + mm_id_012.blue + mm_id_012.green + mm_id_012.red + mm_id_013.blue + mm_id_013.green + mm_id_013.red + mm_id_014.blue + mm_id_014.green + mm_id_014.red + mm_id_015.blue + mm_id_015.green + mm_id_015.red + mm_id_016.blue + mm_id_016.green + mm_id_016.red + mm_id_017.blue + mm_id_017.green + mm_id_017.red + mm_id_018.blue + mm_id_018.green + mm_id_018.red + mm_id_019.blue + mm_id_019.green + mm_id_019.red + mm_id_020.blue + mm_id_020.green + mm_id_020.red + mm_id_021.blue + mm_id_021.green + mm_id_021.red + mm_id_022.blue + mm_id_022.green + mm_id_022.red + mm_id_023.blue + mm_id_023.green + mm_id_023.red + mm_id_024.blue + mm_id_024.green + mm_id_024.red + mm_id_025.blue + mm_id_025.green + mm_id_025.red + mm_id_026.blue + mm_id_026.green + mm_id_026.red + mm_id_027.blue + mm_id_027.green + mm_id_027.red + mm_id_028.blue + mm_id_028.green + mm_id_028.red + mm_id_029.blue + mm_id_029.green + mm_id_029.red + mm_id_030.blue + mm_id_030.green + mm_id_030.red + mm_id_031.blue + mm_id_031.green + mm_id_031.red + mm_id_032.blue + mm_id_032.green + mm_id_032.red + mm_id_033.blue + mm_id_033.green + mm_id_033.red + mm_id_034.blue + mm_id_034.green + mm_id_034.red + mm_id_035.blue + mm_id_035.green + mm_id_035.red + mm_id_036.blue + mm_id_036.green + mm_id_036.red + mm_id_037.blue + mm_id_037.green + mm_id_037.red + mm_id_038.blue + mm_id_038.green + mm_id_038.red + mm_id_039.blue + mm_id_039.green + mm_id_039.red + mm_id_040.blue + mm_id_040.green + mm_id_040.red + mm_id_041.blue + mm_id_041.green + mm_id_041.red"
+  name Expression_MM
+  xpos -5
+  ypos -298
+ }
+set Nda99b800 [stack 0]
+push $Nf4f0d000
+ Shuffle {
+  in alpha
+  name Shuffle1
+  label "in \[value in] - out \[value out]"
+  xpos 146
+  ypos -328
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge2
+  xpos 146
+  ypos -250
+ }
+ Grade {
+  white {1 0 0 1}
+  name Grade1
+  xpos 146
+  ypos -224
+ }
+push $Nda99b800
+ Merge2 {
+  inputs 2
+  name Merge3
+  selected true
+  xpos -5
+  ypos -154
+ }
+set Na61fac00 [stack 0]
+push $Na12bd400
+ Dot {
+  name Dot1
+  xpos -336
+  ypos -606
+ }
+set Na12ba400 [stack 0]
+ Dot {
+  name Dot4
+  xpos -399
+  ypos -606
+ }
+ Dot {
+  name Dot3
+  xpos -399
+  ypos -246
+ }
+push $Na12bd400
+ Shuffle {
+  blue alpha
+  name Shuffle7
+  label "in \[value in] - out \[value out]"
+  xpos -134
+  ypos -554
+ }
+ ColorCorrect {
+  saturation 0
+  name ColorCorrect1
+  xpos -134
+  ypos -516
+ }
+set Na12bdc00 [stack 0]
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+push $Na12bdc00
+ ContactSheet {
+  inputs 120
+  width 3082
+  rows 9
+  columns 7
+  roworder TopBottom
+  name ContactSheet
+  xpos -134
+  ypos -432
+ }
+push $Na12ba400
+ LayerContactSheet {
+  width {{"\[value ContactSheet.width]"}}
+  height {{"\[value ContactSheet.height]"}}
+  rows {{"\[value ContactSheet.rows]"}}
+  columns {{"\[value ContactSheet.columns]"}}
+  autodims false
+  showLayerNames true
+  name LayerContactSheet
+  xpos -370
+  ypos -305
+ }
+ Merge2 {
+  inputs 2
+  operation under
+  also_merge all
+  mix 0.096
+  name Merge17
+  xpos -134
+  ypos -305
+ }
+ Merge2 {
+  inputs 2
+  Achannels none
+  also_merge all
+  name Merge1
+  xpos -134
+  ypos -250
+ }
+set N1c366800 [stack 0]
+ Switch {
+  inputs 2
+  which 1
+  name Switch1
+  xpos -70
+  ypos -106
+ }
+ Output {
+  name Output1
+  xpos -70
+  ypos -34
+ }
+push $N1c366800
+push $Na61fac00
+ Viewer {
+  inputs 2
+  frame_range 1-1
+  name Viewer1
+  xpos 231
+  ypos -490
+ }
+end_group

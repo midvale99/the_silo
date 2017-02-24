@@ -1,0 +1,167 @@
+#! //sbpstor/deploy/packages/nuke/9.0.8/platform-windows/nuke-9.0.8.dll -nx
+version 9.0 v8
+add_layer {normals normals.X normals.Y normals.Z}
+Gizmo {
+ inputs 3
+ addUserKnob {20 User}
+ addUserKnob {41 in l "Normals Channel" T Shuffle4.in}
+ addUserKnob {4 Direction l "Lighting Direction" M {x y z ""}}
+ addUserKnob {41 hue_rotation l "Lighting Rotation" T HueShift1.hue_rotation}
+ addUserKnob {41 disable_1 l Invert T Multiply1.disable}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {41 gain T ColorCorrect1.gain}
+ addUserKnob {41 gamma T ColorCorrect1.gamma}
+ addUserKnob {41 saturation T ColorCorrect1.saturation}
+ addUserKnob {26 "" +STARTLINE}
+ addUserKnob {6 ViewMatte l "Preview Matte" +STARTLINE}
+ addUserKnob {6 UseMask l "Use Mask" +STARTLINE}
+ UseMask true
+}
+ Input {
+  inputs 0
+  name Normals
+  xpos 620
+  ypos 206
+  number 2
+ }
+ HueShift {
+  channels all
+  hue_rotation -21
+  name HueShift1
+  xpos 618
+  ypos 373
+ }
+ Multiply {
+  value -1
+  name Multiply1
+  xpos 618
+  ypos 421
+  disable true
+ }
+ Shuffle {
+  in normals
+  name Shuffle4
+  label "in \[value in] - out \[value out]"
+  xpos 618
+  ypos 459
+ }
+set Nfd83f000 [stack 0]
+ Shuffle {
+  red blue
+  green blue
+  alpha blue
+  name Shuffle3
+  label "in \[value in] - out \[value out]"
+  xpos 701
+  ypos 512
+ }
+set Nfd83ec00 [stack 0]
+push $Nfd83f000
+ Shuffle {
+  red green
+  blue green
+  alpha green
+  name Shuffle2
+  label "in \[value in] - out \[value out]"
+  xpos 620
+  ypos 512
+ }
+push $Nfd83f000
+ Shuffle {
+  green red
+  blue red
+  alpha red
+  name Shuffle1
+  label "in \[value in] - out \[value out]"
+  xpos 529
+  ypos 512
+ }
+ Switch {
+  inputs 3
+  which {{"\[numvalue parent.Direction]"}}
+  name Switch1
+  xpos 620
+  ypos 590
+ }
+set Nfa738000 [stack 0]
+ Dot {
+  name Dot1
+  xpos 764
+  ypos 594
+ }
+ Dot {
+  name Dot2
+  xpos 764
+  ypos 786
+ }
+ Input {
+  inputs 0
+  name Mask
+  xpos 290
+  ypos 638
+  number 1
+ }
+push $Nfa738000
+ Merge2 {
+  inputs 2
+  operation multiply
+  name Merge1
+  xpos 620
+  ypos 638
+ }
+set Nc4486800 [stack 0]
+ Input {
+  inputs 0
+  name In
+  selected true
+  xpos 400
+  ypos 206
+ }
+ Dot {
+  name Dot125
+  xpos 434
+  ypos 383
+ }
+ Dot {
+  name Dot126
+  xpos 434
+  ypos 690
+ }
+ ColorCorrect {
+  inputs 1+1
+  saturation 0.99
+  gamma 2.12
+  gain 1.5
+  name ColorCorrect1
+  xpos 620
+  ypos 686
+ }
+ Switch {
+  inputs 2
+  which {{"\[numvalue parent.ViewMatte]"}}
+  name Switch2
+  xpos 620
+  ypos 782
+ }
+ Dot {
+  name Dot127
+  xpos 654
+  ypos 882
+ }
+ Output {
+  name Output1
+  xpos 620
+  ypos 950
+ }
+push $Nfd83ec00
+push $Nc4486800
+push $Nc4486800
+ Viewer {
+  inputs 3
+  frame_range 1-1
+  input_number 1
+  name Viewer1
+  xpos 950
+  ypos 326
+ }
+end_group

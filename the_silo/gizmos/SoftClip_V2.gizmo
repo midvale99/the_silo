@@ -1,0 +1,114 @@
+#! //sbpstor/deploy/packages/nuke/9.0.8/platform-windows/nuke-9.0.8.dll -nx
+version 9.0 v8
+add_layer {Base Base.red Base.green Base.blue}
+Gizmo {
+ inputs 2
+ tile_color 0xffb878ff
+ addUserKnob {20 User}
+ addUserKnob {41 in l Channel T Shuffle11.in}
+ addUserKnob {41 conversion T SoftClip2.conversion}
+ addUserKnob {41 softclip_min l "softclip min" T SoftClip2.softclip_min}
+ addUserKnob {41 which l Mix T Dissolve5.which}
+ addUserKnob {26 "" l mask}
+ addUserKnob {41 maskChannelMask l "" -STARTLINE T Dissolve5.maskChannelMask}
+ addUserKnob {41 maskChannelInput l "" -STARTLINE T Dissolve5.maskChannelInput}
+ addUserKnob {41 invert_mask l invert -STARTLINE T Dissolve5.invert_mask}
+}
+ Input {
+  inputs 0
+  name In
+  xpos 354
+  ypos 182
+ }
+ Dot {
+  name Dot91
+  xpos 388
+  ypos 221
+ }
+set N1a99e400 [stack 0]
+ Dot {
+  name Dot1
+  xpos 175
+  ypos 221
+ }
+ Dot {
+  name Dot2
+  xpos 175
+  ypos 690
+ }
+ Input {
+  inputs 0
+  name Mask
+  xpos 510
+  ypos 518
+  number 1
+ }
+push $N1a99e400
+ Shuffle {
+  in Base
+  out rgb
+  name Shuffle11
+  label "in \[value in] - out \[value out]"
+  xpos 354
+  ypos 327
+ }
+ Dot {
+  name Dot82
+  xpos 388
+  ypos 463
+ }
+set N95d6d000 [stack 0]
+ SoftClip {
+  conversion "logarithmic compress"
+  softclip_min 0
+  name SoftClip2
+  xpos 244
+  ypos 518
+ }
+push $N95d6d000
+ Dissolve {
+  inputs 2+1
+  which 1
+  maskChannelMask none
+  name Dissolve5
+  xpos 354
+  ypos 512
+ }
+ Shuffle {
+  in rgb
+  out {{{parent.Shuffle11.in}}}
+  name Shuffle12
+  label "in \[value in] - out \[value out]"
+  xpos 354
+  ypos 608
+ }
+ Copy {
+  inputs 2
+  from0 rgba.red
+  to0 rgba.red
+  from1 rgba.green
+  to1 rgba.green
+  from2 rgba.blue
+  to2 rgba.blue
+  name Copy1
+  selected true
+  xpos 354
+  ypos 667
+ }
+set N95d6c000 [stack 0]
+ Output {
+  name Output1
+  xpos 354
+  ypos 734
+ }
+push $N95d6c000
+push $N1a99e400
+ Viewer {
+  inputs 2
+  frame_range 1-1
+  input_number 1
+  name Viewer1
+  xpos 777
+  ypos 542
+ }
+end_group
